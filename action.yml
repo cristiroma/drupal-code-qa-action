@@ -1,5 +1,5 @@
-name: "Build Drupal 8+ release"
-description: 'Checkout a Drupal composer-base repository and create an artifact release'
+name: 'Drupal 8+ code quality check'
+description: 'Verify custom code and theme quality on a Drupal composer-base repository'
 inputs:
   phplint:
     description: 'Run PHP Lint'
@@ -15,21 +15,21 @@ inputs:
     default: 'true'
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
-    - name: Check - PHP syntax
+    - name: 'Check - Syntax'
       if: ${{ inputs.phplint == 'true' }}
       run: ./vendor/bin/phplint --no-cache --no-progress --extensions=php,module,inc,install,test,theme ./web/themes/custom/ ./web/modules/custom/
       shell: bash
 
-    - name: Check - PHP MD on modules
+    - name: 'Check - MD on modules'
       if: ${{ inputs.phpmd == 'true' }}
       run: |
         [ -d ./web/modules/custom ] && wget https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/main/phpmd.xml
         [ -d ./web/modules/custom ] && ./vendor/bin/phpmd  ./web/modules/custom/ github phpmd.xml
       shell: bash
 
-    - name: Check - PHP Code Sniffer
+    - name: 'Check - Code Sniffer on modules'
       if: ${{ inputs.phpcs == 'true' }}
       run: [ -d ./web/modules/custom ] && ./vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,profile,test,info,txt,md,yml ./web/modules/custom/
       shell: bash
