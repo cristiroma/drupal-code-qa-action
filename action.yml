@@ -31,10 +31,12 @@ runs:
 
     - name: 'Check - Code Sniffer on modules'
       if: ${{ inputs.phpcs == 'true' }}
-      run: [ -d ./web/modules/custom ] && ./vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,profile,test,info,txt,md,yml ./web/modules/custom/
+      run: |
+        [ -d ./web/modules/custom ] && ./vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,profile,test,info,txt,md,yml ./web/modules/custom/
       shell: bash
 
     - name: 'Check - Code Sniffer on themes'
       if: ${{ inputs.phpcs == 'true' }}
-      run: [ -d ./web/themes/custom ] && ./vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,profile,theme,test,css,info,txt,md,yml ./web/themes/custom/
+      run: |
+        [ -d ./web/themes/custom ] && ./vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,profile,theme,test,css,info,txt,md,yml ./web/themes/custom/
       shell: bash
