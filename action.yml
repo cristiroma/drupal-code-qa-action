@@ -19,7 +19,8 @@ runs:
   steps:
     - name: 'Check - Syntax'
       if: ${{ inputs.phplint == 'true' }}
-      run: ./vendor/bin/phplint --no-cache --no-progress --extensions=php,module,inc,install,test,theme ./web/themes/custom/ ./web/modules/custom/
+      run: |
+        [ -d ./web/modules/custom ] && ./vendor/bin/phplint --no-cache --no-progress --extensions=php,module,inc,install,test,theme ./web/themes/custom/ ./web/modules/custom/
       shell: bash
 
     - name: 'Check - MD on modules'
