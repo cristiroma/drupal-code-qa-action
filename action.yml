@@ -39,5 +39,5 @@ runs:
     - name: 'Check - Code Sniffer on themes'
       if: ${{ inputs.phpcs == 'true' }}
       run: |
-        [ -d ./web/themes/custom ] && ./vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,profile,theme,test,info,yml ./web/themes/custom/
+        [ -d ./web/themes/custom ] && ./vendor/bin/phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,profile,theme,test,info,yml --ignore=node_modules ./web/themes/custom/
       shell: bash
