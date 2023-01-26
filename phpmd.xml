@@ -16,7 +16,7 @@
     </rule>
     <rule ref="rulesets/cleancode.xml/StaticAccess">
         <properties>
-            <property name="exceptions" value="\Drupal\views\Views, \Drupal\Core\Url, \Drupal\Core\Cache\Cache, \Drupal\Core\Render\Element, \Drupal\Core\Access\AccessResult"/>
+            <property name="exceptions" value="\Drupal\views\Views, \Drupal\Core\Url, \Drupal\Core\Cache\Cache, \Drupal\Core\Render\Element"/>
         </properties>
     </rule>
     <!--rule ref="rulesets/controversial.xml" /-->
