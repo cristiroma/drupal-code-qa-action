@@ -25,6 +25,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: 'Install required tools'
+      run: |
+        composer require --dev  drupal/coder overtrue/phplint phpmd/phpmd
+      shell: bash
+
     - name: 'Check - Syntax'
       if: ${{ inputs.phplint == 'true' }}
       run: |
