@@ -21,37 +21,46 @@ inputs:
     description: 'List of extensions for PHP Code Sniffer'
     required: false
     default: 'php,module,inc,install,profile,theme,test,info,yml'
+  phpstan:
+    description: 'Run PHPStan'
+    required: true
+    default: 'true'
+  phpstan_level:
+    description: 'PHPStan level of rule options - the higher the stricter (1..9)'
+    required: true
+    default: '9'
 
 runs:
   using: 'composite'
   steps:
     - name: 'Install required tools'
       run: |
-        composer require --dev drupal/coder overtrue/phplint phpmd/phpmd
+        composer require --dev drupal/coder overtrue/phplint phpmd/phpmd phpstan/phpstan phpstan/extension-installer mglaman/phpstan-drupal phpstan/phpstan-deprecation-rules
       shell: bash
 
-    - name: 'Check - Syntax'
+    - name: 'PHPLint'
       if: ${{ inputs.phplint == 'true' }}
       run: |
         [ -d ./web/modules/custom ] && ./vendor/bin/phplint --no-cache --no-progress --extensions=php --extensions=module --extensions=inc --extensions=install --extensions=test --extensions=theme ./web/modules/custom/
         [ -d ./web/themes/custom ] && ./vendor/bin/phplint --no-cache --no-progress --extensions=php --extensions=module --extensions=inc --extensions=install --extensions=test --extensions=theme ./web/themes/custom/
       shell: bash
 
-    - name: 'Check - MD on modules'
+    - name: 'PHPMD'
       if: ${{ inputs.phpmd == 'true' }}
       run: |
-        [ -d ./web/modules/custom ] && curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/main/phpmd.xml > phpmd.xml
+        [ -d ./web/modules/custom ] && curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpmd.xml > phpmd.xml
         [ -d ./web/modules/custom ] && ./vendor/bin/phpmd ./web/modules/custom/ github phpmd.xml
       shell: bash
 
-    - name: 'Check - Code Sniffer on modules'
+    - name: 'PHPCS'
       if: ${{ inputs.phpcs == 'true' }}
       run: |
         [ -d ./web/modules/custom ] && ./vendor/bin/phpcs --standard=${{ inputs.phpcs_standards }} --extensions=${{ inputs.phpcs_extensions }} ./web/modules/custom/
+        [ -d ./web/themes/custom ] && ./vendor/bin/phpcs --standard=${{ inputs.phpcs_standards }} --extensions=${{ inputs.phpcs_extensions }} --ignore=node_modules ./web/themes/custom/
       shell: bash
 
-    - name: 'Check - Code Sniffer on themes'
+    - name: 'PHPStan'
       if: ${{ inputs.phpcs == 'true' }}
       run: |
-        [ -d ./web/themes/custom ] && ./vendor/bin/phpcs --standard=${{ inputs.phpcs_standards }} --extensions=${{ inputs.phpcs_extensions }} --ignore=node_modules ./web/themes/custom/
+        [ -d ./web/modules/custom ] && ./vendor/bin/phpstan analyze --level ${{ inputs.phpstan_level }} web/modules/custom/
       shell: bash
