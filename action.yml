@@ -60,7 +60,7 @@ runs:
       shell: bash
 
     - name: 'PHPStan'
-      if: ${{ inputs.phpcs == 'true' }}
+      if: ${{ inputs.phpstan == 'true' }}
       run: |
         [ -d ./web/modules/custom ] && ./vendor/bin/phpstan analyze --level ${{ inputs.phpstan_level }} web/modules/custom/
       shell: bash
