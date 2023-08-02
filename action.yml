@@ -33,7 +33,8 @@ runs:
     - name: 'Check - Syntax'
       if: ${{ inputs.phplint == 'true' }}
       run: |
-        [ -d ./web/modules/custom ] && ./vendor/bin/phplint --no-cache --no-progress --extensions=php,module,inc,install,test,theme ./web/themes/custom/ ./web/modules/custom/
+        [ -d ./web/modules/custom ] && ./vendor/bin/phplint --no-cache --no-progress --extensions=php --extensions=module --extensions=inc --extensions=install --extensions=test --extensions=theme ./web/modules/custom/
+        [ -d ./web/themes/custom ] && ./vendor/bin/phplint --no-cache --no-progress --extensions=php --extensions=module --extensions=inc --extensions=install --extensions=test --extensions=theme ./web/themes/custom/
       shell: bash
 
     - name: 'Check - MD on modules'
