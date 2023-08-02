@@ -27,7 +27,7 @@ runs:
   steps:
     - name: 'Install required tools'
       run: |
-        composer require --dev  drupal/coder overtrue/phplint phpmd/phpmd
+        composer require --dev drupal/coder overtrue/phplint phpmd/phpmd
       shell: bash
 
     - name: 'Check - Syntax'
@@ -40,8 +40,8 @@ runs:
     - name: 'Check - MD on modules'
       if: ${{ inputs.phpmd == 'true' }}
       run: |
-        [ -d ./web/modules/custom ] && wget https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/main/phpmd.xml
-        [ -d ./web/modules/custom ] && ./vendor/bin/phpmd  ./web/modules/custom/ github phpmd.xml
+        [ -d ./web/modules/custom ] && wget -O https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/main/phpmd.xml
+        [ -d ./web/modules/custom ] && ./vendor/bin/phpmd ./web/modules/custom/ github phpmd.xml
       shell: bash
 
     - name: 'Check - Code Sniffer on modules'
