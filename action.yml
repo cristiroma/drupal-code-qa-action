@@ -28,7 +28,7 @@ inputs:
   phpstan_level:
     description: 'PHPStan level of rule options - the higher the stricter (1..9)'
     required: true
-    default: '9'
+    default: '5'
 
 runs:
   using: 'composite'
