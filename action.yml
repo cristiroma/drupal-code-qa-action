@@ -50,7 +50,7 @@ runs:
       if: ${{ inputs.phpmd == 'true' }}
       run: |
         ./vendor/bin/phpmd --version
-        [ -d ./web/modules/custom ] && curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpmd.xml > phpmd.xml
+        [ -d ./web/modules/custom ] && [ ! -f phpmd.xml ] && curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpmd.xml > phpmd.xml
         [ -d ./web/modules/custom ] && ./vendor/bin/phpmd ./web/modules/custom/ github phpmd.xml
       shell: bash
 
@@ -66,6 +66,6 @@ runs:
       if: ${{ inputs.phpstan == 'true' }}
       run: |
         ./vendor/bin/phpstan --version
-        [ -d ./web/modules/custom ] && curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpstan.neon > phpstan.neon
+        [ -d ./web/modules/custom ] && [ ! -f phpstan.neon ] && curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpstan.neon > phpstan.neon
         [ -d ./web/modules/custom ] && ./vendor/bin/phpstan analyze --level ${{ inputs.phpstan_level }}
       shell: bash
