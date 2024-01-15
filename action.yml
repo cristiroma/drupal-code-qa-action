@@ -42,30 +42,30 @@ runs:
       if: ${{ inputs.phplint == 'true' }}
       run: |
         ./vendor/bin/phplint --version
-        [ -d ./web/modules/custom ] && ./vendor/bin/phplint --no-cache --no-progress --extensions=php --extensions=module --extensions=inc --extensions=install --extensions=test --extensions=theme ./web/modules/custom/
-        [ -d ./web/themes/custom ] && ./vendor/bin/phplint --no-cache --no-progress --extensions=php --extensions=module --extensions=inc --extensions=install --extensions=test --extensions=theme ./web/themes/custom/
+        if [ -d ./web/modules/custom ]; then ./vendor/bin/phplint --no-cache --no-progress --extensions=php --extensions=module --extensions=inc --extensions=install --extensions=test --extensions=theme ./web/modules/custom/; fi
+        if [ -d ./web/themes/custom ]; then ./vendor/bin/phplint --no-cache --no-progress --extensions=php --extensions=module --extensions=inc --extensions=install --extensions=test --extensions=theme ./web/themes/custom/; fi
       shell: bash
 
     - name: 'PHPMD'
       if: ${{ inputs.phpmd == 'true' }}
       run: |
         ./vendor/bin/phpmd --version
-        [ -d ./web/modules/custom ] && [ ! -f phpmd.xml ] && curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpmd.xml > phpmd.xml
-        [ -d ./web/modules/custom ] && ./vendor/bin/phpmd ./web/modules/custom/ github phpmd.xml
+        if [ -d ./web/modules/custom ] && [ ! -f phpmd.xml ]; then curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpmd.xml > phpmd.xml; fi
+        if [ -d ./web/modules/custom ]; then ./vendor/bin/phpmd ./web/modules/custom/ github phpmd.xml; fi
       shell: bash
 
     - name: 'PHPCS'
       if: ${{ inputs.phpcs == 'true' }}
       run: |
         ./vendor/bin/phpcs --version
-        [ -d ./web/modules/custom ] && ./vendor/bin/phpcs --standard=${{ inputs.phpcs_standards }} --extensions=${{ inputs.phpcs_extensions }} ./web/modules/custom/
-        [ -d ./web/themes/custom ] && ./vendor/bin/phpcs --standard=${{ inputs.phpcs_standards }} --extensions=${{ inputs.phpcs_extensions }} --ignore=node_modules ./web/themes/custom/
+        if [ -d ./web/modules/custom ]; then ./vendor/bin/phpcs --standard=${{ inputs.phpcs_standards }} --extensions=${{ inputs.phpcs_extensions }} ./web/modules/custom/; fi
+        if [ -d ./web/themes/custom ]; then ./vendor/bin/phpcs --standard=${{ inputs.phpcs_standards }} --extensions=${{ inputs.phpcs_extensions }} --ignore=node_modules ./web/themes/custom/; fi
       shell: bash
 
     - name: 'PHPStan'
       if: ${{ inputs.phpstan == 'true' }}
       run: |
         ./vendor/bin/phpstan --version
-        [ -d ./web/modules/custom ] && [ ! -f phpstan.neon ] && curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpstan.neon > phpstan.neon
-        [ -d ./web/modules/custom ] && ./vendor/bin/phpstan analyze --level ${{ inputs.phpstan_level }}
+        if [ -d ./web/modules/custom ] && [ ! -f phpstan.neon ]; then curl https://raw.githubusercontent.com/eaudeweb/drupal-code-qa-action/2.x/phpstan.neon > phpstan.neon; fi
+        if [ -d ./web/modules/custom ]; then ./vendor/bin/phpstan analyze --level ${{ inputs.phpstan_level }}; fi
       shell: bash
