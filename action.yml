@@ -16,7 +16,7 @@ inputs:
   phpcs_standards:
     description: 'List of standards for PHP Code Sniffer'
     required: false
-    default: 'Drupal,DrupalPractice'
+    default: 'Drupal,DrupalPractice,QualityAssurance'
   phpcs_extensions:
     description: 'List of extensions for PHP Code Sniffer'
     required: false
@@ -35,7 +35,7 @@ runs:
   steps:
     - name: 'Install required tools'
       run: |
-        composer require --dev drupal/coder overtrue/phplint phpmd/phpmd phpstan/phpstan phpstan/extension-installer mglaman/phpstan-drupal phpstan/phpstan-deprecation-rules
+        composer require --dev drupal/coder overtrue/phplint phpmd/phpmd phpstan/phpstan phpstan/extension-installer mglaman/phpstan-drupal phpstan/phpstan-deprecation-rules  ec-europa/qa-automation:^9.0
       shell: bash
 
     - name: 'PHPLint'
